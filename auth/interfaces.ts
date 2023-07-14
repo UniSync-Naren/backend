@@ -1,25 +1,25 @@
 export interface UserInfo {
-    username: string;
-    name: string;
-    password: string;
+  username: string;
+  name: string;
+  password: string;
 }
 
 export interface User {
-    username: string;
-    password: string;
+  username: string;
+  password: string;
 }
 
 export interface MessageBody {
-    message: string;
+  message: string;
 }
 
 export interface LoginResponseBody {
-    user: {
-        username: string;
-        name: string;
-    };
+  user: {
+    username: string;
+    name: string;
+  };
 }
 
 export interface RegisterResponseBody {
-    username: string;
+  username: string;
 }

@@ -1,8 +1,8 @@
 {
-  "body": "{\"message\": \"hello world\"}",
+  "body": "{\"username\": \"naren999\", \"name\": \"Naren Sreekanth\", \"password\": \"test123\"}",
   "resource": "/{proxy+}",
-  "path": "/path/to/resource",
-  "httpMethod": "GET",
+  "path": "/register",
+  "httpMethod": "POST",
   "isBase64Encoded": false,
   "queryStringParameters": {
     "foo": "bar"

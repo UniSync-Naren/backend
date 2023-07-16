@@ -1,18 +1,13 @@
 // Load the AWS SDK for Node.js
-import AWS from 'aws-sdk';
+import { DynamoDB } from 'aws-sdk';
+import { UserInfo } from '../interfaces';
 
-// Set the region
-AWS.config.update({ region: 'ap-southeast-1' });
+// // Set the region
+// AWS.config.update({ region: 'us-east-1' });
 // Create DynamoDB document client
-const dynamoDB = new AWS.DynamoDB.DocumentClient({ apiVersion: '2012-08-10' });
+const dynamoDB = new DynamoDB.DocumentClient({ apiVersion: '2012-08-10' });
 
 const userTable = 'users';
-
-interface User {
-  username: string;
-  name: string;
-  password: string;
-}
 
 export const getUser = async (username: string) => {
   const params = {
@@ -34,7 +29,7 @@ export const getUser = async (username: string) => {
     );
 };
 
-export const saveUser = async (user: User) => {
+export const saveUser = async (user: UserInfo) => {
   const params = {
     TableName: userTable,
     Key: {

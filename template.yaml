@@ -15,6 +15,10 @@ Resources:
       CodeUri: auth/
       Handler: app.lambdaHandler
       Runtime: nodejs18.x
+      MemorySize: 512
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: users
       Architectures:
         - x86_64
       Events:

@@ -32,6 +32,29 @@ Resources:
           Properties:
             Path: /login
             Method: post
+  CourseFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      CodeUri: course/
+      Handler: app.lambdaHandler
+      Runtime: nodejs18.x
+      MemorySize: 512
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: users
+      Architectures:
+        - x86_64
+      Events:
+        GetCourses:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Path: /course
+            Method: get
+        CreateCourse:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Path: /course
+            Method: post
     Metadata: # Manage esbuild properties
       BuildMethod: esbuild
       BuildProperties:
@@ -51,9 +74,18 @@ Outputs:
   LoginApi:
     Description: "API Gateway endpoint URL for Prod stage for Auth api"
     Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/login/"
+  CourseApi:
+    Description: "API Gateway endpoint URL for Prod stage for Course api"
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/course/"
   AuthFunction:
     Description: "Auth Lambda Function ARN"
     Value: !GetAtt AuthFunction.Arn
+  CourseFunction:
+    Description: "Course Lambda Function ARN"
+    Value: !GetAtt CourseFunction.Arn
   AuthFunctionIamRole:
     Description: "Implicit IAM Role created for Auth function"
     Value: !GetAtt AuthFunctionRole.Arn
+  CourseFunctionIamRole:
+    Description: "Implicit IAM Role created for Course function"
+    Value: !GetAtt CourseFunctionRole.Arn

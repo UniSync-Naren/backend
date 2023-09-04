@@ -1,11 +1,11 @@
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda';
 
-const coursePath = '/course';
+const eventPath = '/event';
 
 import './helpers/utils/util';
 import { buildResponse } from './helpers/utils/util';
-import { getCourses } from './functions/getCourses';
-import { createCourse } from './functions/createCourse';
+import { getEvents } from './functions/getEvents';
+import { createEvent } from './functions/createEvent';
 
 /**
  *
@@ -27,11 +27,11 @@ export const lambdaHandler = async (event: APIGatewayProxyEvent): Promise<APIGat
     // Combine the parameters into an object
     let response;
     switch (true) {
-      case httpMethod === 'POST' && path === coursePath:
-        response = await createCourse(requestBody);
+      case httpMethod === 'POST' && path === eventPath:
+        response = await createEvent(requestBody);
         break;
-      case httpMethod === 'GET' && path === coursePath:
-        response = await getCourses(queryParams);
+      case httpMethod === 'GET' && path === eventPath:
+        response = await getEvents(queryParams);
         break;
       default:
         response = buildResponse(404, { message: 'Error, Path Not Found' });

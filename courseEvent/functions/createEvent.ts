@@ -1,22 +1,22 @@
 // Load the AWS SDK for Node.js
 import { DynamoDB } from 'aws-sdk';
-import { CourseInfo } from '../interfaces';
+import { EventInfo } from '../interfaces';
 import { buildResponse } from '../helpers/utils/util';
 
 // // Set the region
 // AWS.config.update({ region: 'us-east-1' });
 // Create DynamoDB document client
 const dynamoDB = new DynamoDB.DocumentClient({ apiVersion: '2012-08-10' });
-const courseTable = 'courses';
+const eventTable = 'events';
 
-const createHelper = async (course: CourseInfo) => {
+const createHelper = async (event: EventInfo) => {
   const params = {
-    TableName: courseTable,
+    TableName: eventTable,
     Key: {
-      code: course.code,
-      username: course.username,
+      eventid: event.eventid,
+      username: event.username,
     },
-    Item: course,
+    Item: event,
   };
 
   return await dynamoDB
@@ -27,16 +27,16 @@ const createHelper = async (course: CourseInfo) => {
         return true;
       },
       (error) => {
-        console.log('Error creating course', error);
+        console.log('Error creating event', error);
       },
     );
 };
 
-export const createCourse = async (course: CourseInfo) => {
+export const createEvent = async (event: EventInfo) => {
   try {
-    await createHelper(course);
+    await createHelper(event);
     const response = {
-      message: 'course created',
+      message: 'event created',
     };
     return buildResponse(200, response);
   } catch (err) {

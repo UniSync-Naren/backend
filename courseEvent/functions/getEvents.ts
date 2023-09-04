@@ -1,6 +1,6 @@
 // Load the AWS SDK for Node.js
 import { DynamoDB } from 'aws-sdk';
-import { CourseParams, GetCourseResponseBody } from '../interfaces';
+import { EventParams, GetEventResponseBody } from '../interfaces';
 import { buildResponse } from '../helpers/utils/util';
 import { APIGatewayProxyEventQueryStringParameters } from 'aws-lambda';
 
@@ -8,13 +8,13 @@ import { APIGatewayProxyEventQueryStringParameters } from 'aws-lambda';
 // AWS.config.update({ region: 'us-east-1' });
 // Create DynamoDB document client
 const dynamoDB = new DynamoDB({ apiVersion: '2012-08-10' });
-const courseTable = 'courses';
+const eventTable = 'events';
 
-const getHelper = async (course: APIGatewayProxyEventQueryStringParameters) => {
+const getHelper = async (event: APIGatewayProxyEventQueryStringParameters) => {
   const params = {
-    TableName: courseTable,
+    TableName: eventTable,
     ExpressionAttributeValues: {
-      ':u': { S: course.username },
+      ':u': { S: event.username },
     },
     FilterExpression: 'username = :u',
   };
@@ -22,16 +22,16 @@ const getHelper = async (course: APIGatewayProxyEventQueryStringParameters) => {
     const response = await dynamoDB.scan(params).promise();
     return response.Items;
   } catch (error) {
-    console.log('Error fetching courses', error);
-    throw error; // Rethrow the error to be caught in the getCourses function
+    console.log('Error fetching events', error);
+    throw error; // Rethrow the error to be caught in the getCEvents function
   }
 };
 
-export const getCourses = async (course: APIGatewayProxyEventQueryStringParameters) => {
+export const getEvents = async (event: APIGatewayProxyEventQueryStringParameters) => {
   try {
-    const courses = await getHelper(course);
-    const response: GetCourseResponseBody = {
-      courses: courses,
+    const events = await getHelper(event);
+    const response: GetEventResponseBody = {
+      courses: events,
     };
     return buildResponse(200, response);
   } catch (err) {

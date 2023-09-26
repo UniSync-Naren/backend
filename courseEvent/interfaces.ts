@@ -43,5 +43,5 @@ export interface MessageBody {
 }
 
 export interface GetEventResponseBody {
-  courses: DynamoDB.DocumentClient.ItemList | undefined | null; // Modify the type here accordingly
+  events: DynamoDB.DocumentClient.ItemList | undefined | null; // Modify the type here accordingly
 }

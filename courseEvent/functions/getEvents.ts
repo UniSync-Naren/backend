@@ -31,7 +31,7 @@ export const getEvents = async (event: APIGatewayProxyEventQueryStringParameters
   try {
     const events = await getHelper(event);
     const response: GetEventResponseBody = {
-      courses: events,
+      events: events,
     };
     return buildResponse(200, response);
   } catch (err) {

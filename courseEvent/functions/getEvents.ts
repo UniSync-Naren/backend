@@ -1,6 +1,6 @@
 // Load the AWS SDK for Node.js
 import { DynamoDB } from 'aws-sdk';
-import { EventParams, GetEventResponseBody } from '../interfaces';
+import { GetEventResponseBody } from '../interfaces';
 import { buildResponse } from '../helpers/utils/util';
 import { APIGatewayProxyEventQueryStringParameters } from 'aws-lambda';
 

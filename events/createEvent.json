@@ -1,5 +1,5 @@
 {  
-    "body": "{\"username\": \"naren999\", \"eventid\": \"1\", \"eventType\": \"lecture\", \"courseid\": \"test123\", \"stratTime\": \"02-11-2021\", \"endTime\": \"02-11-2021\", \"graded\": true}",
+    "body": "[{\"username\": \"naren999\", \"eventid\": \"1\", \"eventType\": \"lecture\", \"courseid\": \"test123\", \"stratTime\": \"02-11-2021\", \"endTime\": \"02-11-2021\", \"graded\": true}]",
     "resource": "/{proxy+}",
     "path": "/event",
     "httpMethod": "POST",

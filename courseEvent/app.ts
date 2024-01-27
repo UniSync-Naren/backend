@@ -5,7 +5,7 @@ const eventPath = '/event';
 import './helpers/utils/util';
 import { buildResponse } from './helpers/utils/util';
 import { getEvents } from './functions/getEvents';
-import { createEvent } from './functions/createEvent';
+import { createEvents } from './functions/createEvents';
 
 /**
  *
@@ -28,7 +28,7 @@ export const lambdaHandler = async (event: APIGatewayProxyEvent): Promise<APIGat
     let response;
     switch (true) {
       case httpMethod === 'POST' && path === eventPath:
-        response = await createEvent(requestBody);
+        response = await createEvents(requestBody);
         break;
       case httpMethod === 'GET' && path === eventPath:
         response = await getEvents(queryParams);

@@ -12,10 +12,6 @@ const eventTable = 'events';
 const createHelper = async (event: EventInfo) => {
   const params = {
     TableName: eventTable,
-    Key: {
-      eventid: event.eventid,
-      username: event.username,
-    },
     Item: event,
   };
 
@@ -23,30 +19,33 @@ const createHelper = async (event: EventInfo) => {
     .put(params)
     .promise()
     .then(
-      (response) => {
+      () => {
         return true;
       },
       (error) => {
         console.log('Error creating event', error);
+        throw error; // Rethrow the error to be caught in the calling function
       },
     );
 };
 
-export const createEvent = async (event: EventInfo) => {
-  try {
-    await createHelper(event);
-    const response = {
-      message: 'event created',
-    };
-    return buildResponse(200, response);
-  } catch (err) {
-    // Handle errors thrown by the inner functions
-    const error = err as Error; // Type assertion
+export const createEvents = async (events: EventInfo[]) => {
+  for (let i = 0; (i = i + 1); i < events.length) {
+    try {
+      await createHelper(events[i]);
+      const response = {
+        message: 'event created',
+      };
+      return buildResponse(200, response);
+    } catch (err) {
+      // Handle errors thrown by the inner functions
+      const error = err as Error; // Type assertion
 
-    const response = {
-      message: error.message,
-    };
-
-    return buildResponse(401, response);
+      const response = {
+        message: error.message,
+      };
+    }
   }
+
+  return buildResponse(401, 'events created');
 };

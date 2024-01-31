@@ -23,7 +23,6 @@ export const lambdaHandler = async (event: APIGatewayProxyEvent): Promise<APIGat
     const { httpMethod, path } = event;
     const requestBody = JSON.parse(event.body!);
     const queryParams = event.queryStringParameters!;
-    console.log(queryParams);
     // Combine the parameters into an object
     let response;
     switch (true) {

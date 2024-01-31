@@ -30,13 +30,11 @@ const createHelper = async (event: EventInfo) => {
 };
 
 export const createEvents = async (events: EventInfo[]) => {
-  for (let i = 0; (i = i + 1); i < events.length) {
+  console.log('events: ', events, 'length: ', events.length);
+  for (let i = 0; i < events.length; i = i + 1) {
+    console.log('event: ', events[i], 'i: ', i);
     try {
       await createHelper(events[i]);
-      const response = {
-        message: 'event created',
-      };
-      return buildResponse(200, response);
     } catch (err) {
       // Handle errors thrown by the inner functions
       const error = err as Error; // Type assertion
@@ -44,8 +42,9 @@ export const createEvents = async (events: EventInfo[]) => {
       const response = {
         message: error.message,
       };
+      return buildResponse(200, response);
     }
   }
 
-  return buildResponse(401, 'events created');
+  return buildResponse(200, 'events created');
 };

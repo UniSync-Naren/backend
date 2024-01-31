@@ -6,7 +6,7 @@ Description: >
 # More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
 Globals:
   Function:
-    Timeout: 3
+    Timeout: 10
 
 Resources:
   AuthFunction:
@@ -40,6 +40,68 @@ Resources:
         Sourcemap: true
         EntryPoints:
           - app.ts
+  CourseFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      CodeUri: course/
+      Handler: app.lambdaHandler
+      Runtime: nodejs18.x
+      MemorySize: 512
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: courses
+      Architectures:
+        - x86_64
+      Events:
+        GetCourses:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Path: /course
+            Method: get
+        CreateCourse:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Path: /course
+            Method: post
+    Metadata: # Manage esbuild properties
+      BuildMethod: esbuild
+      BuildProperties:
+        Minify: true
+        Target: "es2020"
+        Sourcemap: true
+        EntryPoints:
+          - app.ts
+  EventFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      CodeUri: courseEvent/
+      Handler: app.lambdaHandler
+      Runtime: nodejs18.x
+      MemorySize: 512
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: events
+      Architectures:
+        - x86_64
+      Events:
+        GetEvents:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Path: /event
+            Method: get
+        CreateEvents:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Path: /event
+            Method: post
+    Metadata: # Manage esbuild properties
+      BuildMethod: esbuild
+      BuildProperties:
+        Minify: true
+        Target: "es2020"
+        Sourcemap: true
+        EntryPoints:
+          - app.ts
 
 Outputs:
   # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
@@ -51,9 +113,27 @@ Outputs:
   LoginApi:
     Description: "API Gateway endpoint URL for Prod stage for Auth api"
     Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/login/"
+  CourseApi:
+    Description: "API Gateway endpoint URL for Prod stage for Course api"
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/course/"
+  EventApi:
+    Description: "API Gateway endpoint URL for Prod stage for Course api"
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/event/"
   AuthFunction:
     Description: "Auth Lambda Function ARN"
     Value: !GetAtt AuthFunction.Arn
+  CourseFunction:
+    Description: "Course Lambda Function ARN"
+    Value: !GetAtt CourseFunction.Arn
+  EventFunction:
+    Description: "Event Lambda Function ARN"
+    Value: !GetAtt EventFunction.Arn
   AuthFunctionIamRole:
     Description: "Implicit IAM Role created for Auth function"
     Value: !GetAtt AuthFunctionRole.Arn
+  CourseFunctionIamRole:
+    Description: "Implicit IAM Role created for Course function"
+    Value: !GetAtt CourseFunctionRole.Arn
+  EventFunctionIamRole:
+    Description: "Implicit IAM Role created for Event function"
+    Value: !GetAtt EventFunctionRole.Arn

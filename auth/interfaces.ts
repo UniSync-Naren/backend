@@ -13,7 +13,7 @@ export interface MessageBody {
   message: string;
 }
 
-export interface LoginResponseBody {
+export interface GetCoursesBody {
   user: {
     username: string;
     name: string;

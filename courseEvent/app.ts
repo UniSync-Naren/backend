@@ -6,6 +6,8 @@ import './helpers/utils/util';
 import { buildResponse } from './helpers/utils/util';
 import { getEvents } from './functions/getEvents';
 import { createEvents } from './functions/createEvents';
+import { deleteEvents } from './functions/deleteEvents';
+import { editEvents } from './functions/editEvents';
 
 /**
  *
@@ -31,6 +33,12 @@ export const lambdaHandler = async (event: APIGatewayProxyEvent): Promise<APIGat
         break;
       case httpMethod === 'GET' && path === eventPath:
         response = await getEvents(queryParams);
+        break;
+      case httpMethod === 'DELETE' && path === eventPath:
+        response = await deleteEvents(requestBody);
+        break;
+      case httpMethod === 'PUT' && path === eventPath:
+        response = await editEvents(requestBody);
         break;
       default:
         response = buildResponse(404, { message: 'Error, Path Not Found' });

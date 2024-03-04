@@ -12,6 +12,16 @@ export interface EventInfo {
   graded: number;
 }
 
+// Event object without eventid
+export interface RestEventInfo {
+  username: number;
+  eventType: EventType;
+  courseid: string;
+  startTime: Date;
+  endTime: Date;
+  graded: number;
+}
+
 type EventType = ClassType | ExamType | AssignmentType;
 
 enum ClassType {

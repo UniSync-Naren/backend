@@ -2,15 +2,17 @@ import { DynamoDB } from 'aws-sdk';
 import { EventInfo, RestEventInfo } from '../interfaces';
 import { buildResponse } from '../helpers/utils/util';
 
-const dynamoDB = new DynamoDB.DocumentClient();
+const dynamoDB = new DynamoDB.DocumentClient({ apiVersion: '2012-08-10' });
 const eventTable = 'events';
 
 export const editEvents = async (event: EventInfo) => {
-  const { eventid, ...rest } = event; // Destructure the event to separate the ID from the rest of the attributes.
+  const { eventid, username, ...rest } = event; // Destructure to separate keys and other attributes.
+
   const params = {
     TableName: eventTable,
     Key: {
-      eventid,
+      eventid: eventid,
+      username: username, // Include the sort key
     },
     UpdateExpression:
       'set ' +

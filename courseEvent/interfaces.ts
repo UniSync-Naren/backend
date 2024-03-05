@@ -14,7 +14,6 @@ export interface EventInfo {
 
 // Event object without eventid
 export interface RestEventInfo {
-  username: number;
   eventType: EventType;
   courseid: string;
   startTime: Date;
@@ -54,4 +53,9 @@ export interface MessageBody {
 
 export interface GetEventResponseBody {
   events: DynamoDB.DocumentClient.ItemList | undefined | null; // Modify the type here accordingly
+}
+
+export interface DeleteEventsProps {
+  eventid: string;
+  username: string;
 }

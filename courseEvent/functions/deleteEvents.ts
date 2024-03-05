@@ -1,14 +1,16 @@
 import { DynamoDB } from 'aws-sdk';
 import { buildResponse } from '../helpers/utils/util';
+import { DeleteEventsProps } from '../interfaces';
 
 const dynamoDB = new DynamoDB.DocumentClient();
 const eventTable = 'events';
 
-export const deleteEvents = async (eventid: string) => {
+export const deleteEvents = async (event: DeleteEventsProps) => {
   const params = {
     TableName: eventTable,
     Key: {
-      id: eventid,
+      eventid: event.eventid,
+      username: event.username,
     },
   };
 
